@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCUtil", "DCUtil\DCUtil.csproj", "{EA594DBF-04C9-44F5-9E30-A5533963E1FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DCUtil.Test", "DCUtil.Test\DCUtil.Test.csproj", "{68A4D8FF-6146-4B78-9117-E8284C3B68D1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EA594DBF-04C9-44F5-9E30-A5533963E1FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA594DBF-04C9-44F5-9E30-A5533963E1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA594DBF-04C9-44F5-9E30-A5533963E1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA594DBF-04C9-44F5-9E30-A5533963E1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68A4D8FF-6146-4B78-9117-E8284C3B68D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A4D8FF-6146-4B78-9117-E8284C3B68D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A4D8FF-6146-4B78-9117-E8284C3B68D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A4D8FF-6146-4B78-9117-E8284C3B68D1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
