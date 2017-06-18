@@ -3,19 +3,19 @@
     using System;
     using System.Threading.Tasks;
 
-    public static partial class Function
+    public static partial class FunctionExtensions
     {
-        private struct Protected
+        private struct VoidResult
         {
         }
 
-        public static Task AsTask(this Action func)
+        public static System.Threading.Tasks.Task RunSync(this Action func)
         {
-            var tcs = new TaskCompletionSource<Protected>();
+            var tcs = new TaskCompletionSource<VoidResult>();
             try
             {
                 func();
-                tcs.SetResult(default(Protected));
+                tcs.SetResult(default(VoidResult));
             }
             catch (Exception e)
             {
@@ -24,7 +24,7 @@
             return tcs.Task;
         }
 
-        public static Task<TResult> AsTask<TResult>(this Func<TResult> func)
+        public static Task<TResult> RunSync<TResult>(this Func<TResult> func)
         {
             var tcs = new TaskCompletionSource<TResult>();
             try

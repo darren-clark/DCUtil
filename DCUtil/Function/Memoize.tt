@@ -1,0 +1,34 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ include file="..\TemplateIncludes.tt"#>
+<#@ output extension=".cs" #>
+namespace DCUtil
+{
+	using System;
+	using System.Collections.Generic;
+
+	public static partial class FunctionExtensions
+	{
+        public static Func<T, TResult> Memoize<T,TResult>(this Func<T,TResult> func)
+        {
+            var memo = new Dictionary<T, TResult>();
+            return arg =>
+            {
+                if (!memo.TryGetValue(arg, out TResult result))
+                {
+                    memo[arg] = result = func(arg);
+                }
+
+                return result;
+            };
+        }
+<#
+for(int i =2; i < 8; i++)
+{
+#>
+		public static Func<#=GenerateTemplateParams(i, true)#> Memoize<#= GenerateTemplateParams(i, true)#>(this Func<#= GenerateTemplateParams(i, true)#> func)
+		{
+			return func.Spread().Memoize().Unspread();
+		}
+<#}#>
+	}
+}

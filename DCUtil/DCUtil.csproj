@@ -39,17 +39,96 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collection\GetPosition.cs" />
     <Compile Include="Expression\ExpressionEnumerator.cs" />
     <Compile Include="Expression\ExpressionEqualityComparer.cs" />
-    <Compile Include="Function\Apply.cs" />
-    <Compile Include="Function\Memoize.cs" />
-    <Compile Include="Function\Partial.cs" />
+    <Compile Include="Function\Apply.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Apply.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function\Memoize.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Memoize.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function\Partial.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Partial.tt</DependentUpon>
+    </Compile>
     <Compile Include="Function\PartialRight.cs" />
-    <Compile Include="Function\Spread.cs" />
+    <Compile Include="Function\Spread.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Spread.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function\Tap.cs" />
     <Compile Include="Function\Task.cs" />
-    <Compile Include="Function\Unapply.cs" />
-    <Compile Include="Function\Unspread.cs" />
+    <Compile Include="Function\Unapply.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Unapply.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Function\Unspread.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Unspread.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task\Promise\Catch.cs" />
+    <Compile Include="Task\Promise\Internals.cs" />
+    <Compile Include="Task\Promise\Tap.cs" />
+    <Compile Include="Task\Promise\Then.cs" />
+    <Compile Include="Task\TaskExtensions.cs" />
+    <Compile Include="TemplateIncludes.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TemplateIncludes.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tuple\Apply.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Apply.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Tuple\Concat.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Function\Apply.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Apply.cs</LastGenOutput>
+    </Content>
+    <Content Include="Function\Memoize.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Memoize.cs</LastGenOutput>
+    </Content>
+    <Content Include="Function\Partial.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Partial.cs</LastGenOutput>
+    </Content>
+    <Content Include="Function\Spread.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Spread.cs</LastGenOutput>
+    </Content>
+    <Content Include="Function\Unapply.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Unapply.cs</LastGenOutput>
+    </Content>
+    <Content Include="Function\Unspread.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Unspread.cs</LastGenOutput>
+    </Content>
+    <Content Include="TemplateIncludes.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>TemplateIncludes.cs</LastGenOutput>
+    </Content>
+    <Content Include="Tuple\Apply.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Apply.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

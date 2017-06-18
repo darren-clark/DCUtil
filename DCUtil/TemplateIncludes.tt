@@ -1,0 +1,28 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#+
+private string GenerateTemplateParams(int count, bool includeResult, int start = 1)
+{
+	var parameters = Enumerable.Range(start,count).Select(i => string.Format("T{0}", i)).ToList();
+	if (includeResult)
+	{
+		parameters.Add("TResult");
+	}
+	if (parameters.Count == 0)
+	{
+		return "";
+	}
+	return "<"+String.Join(",",parameters)+">";
+}
+
+private string GenerateTemplateArgs(int count, bool includeType, int start = 1){
+	return String.Join(", ",Enumerable.Range(start,count).Select(i => string.Format(includeType ? "T{0} arg{0}" : "arg{0}", i)));
+}
+
+private string GenerateTupleItems(int count)
+{
+	return String.Join(",",Enumerable.Range(1,count).Select(i => string.Format("args.Item{0}", i)));
+}
+#>

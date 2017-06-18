@@ -1,0 +1,25 @@
+﻿<#@ template debug="true" hostspecific="false" language="C#" #>
+<#@ include file="..\TemplateIncludes.tt"#>
+<#@ output extension=".cs" #>
+namespace DCUtil
+{
+	using System;
+
+	public static partial class TupleExtensions
+	{
+<#
+for(int i =1; i < 8; i++)
+{
+
+#>
+		public static TResult Apply<#= GenerateTemplateParams(i, true)#>(this Tuple<#= GenerateTemplateParams(i, false)#> args, Func<#= GenerateTemplateParams(i, true)#> func)
+		{
+			return func(<#=GenerateTupleItems(i)#>);
+		}
+		public static void Apply<#=GenerateTemplateParams(i, false)#>(this Tuple<#=GenerateTemplateParams(i, false)#> args, Action<#=GenerateTemplateParams(i,false)#> func)
+		{
+			func(<#=GenerateTupleItems(i)#>);
+		}
+<#}#>
+	}
+}
