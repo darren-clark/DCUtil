@@ -31,13 +31,13 @@
 
         private static void OnCompletionContination<TResult,TContext>(Task t, object boxedCtx)
         {
-            var ctx = (CompletionContext<TResult, TContext>)boxedCtx;
+            var ctx = (CompletionContext<VoidResult, TResult, TContext>)boxedCtx;
             try
             {
                 switch (t.Status)
                 {
                     case TaskStatus.RanToCompletion:
-                        ctx.successAction(ctx.context, ctx.tcs);
+                        ctx.successAction(voidResult, ctx.context, ctx.tcs);
                         break;
                     case TaskStatus.Faulted:
                         ctx.faultedAction(t.Exception, ctx.context, ctx.tcs);
