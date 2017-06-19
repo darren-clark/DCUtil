@@ -115,14 +115,14 @@
             task.OnCompletion(context, tcs, successAction, Continuations.Result<TResult>.In<TIn>.Context<TContext>.DefaultFaulted, Continuations.Result<TResult>.In<TIn>.Context<TContext>.DefaultCanceled, cancellationToken);
         }
 
-        private static Task<TResult> OnSuccess<TResult, TContext>(this Task task, TContext context, Action<CompletionContext<TResult, TContext>> completionAction, CancellationToken cancellationToken)
+        private static Task<TResult> OnSuccessOuter<TResult, TContext>(this Task task, TContext context, Action<CompletionContext<TResult, TContext>> completionAction, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<TResult>();
             task.OnSuccess(context, tcs, completionAction, cancellationToken);
             return tcs.Task;
         }
 
-        private static Task<TResult> OnSuccess<TIn, TResult, TContext>(this Task<TIn> task, TContext context, Action<TIn, CompletionContext<TIn, TResult, TContext>> completionAction, CancellationToken cancellationToken)
+        private static Task<TResult> OnSuccessOuter<TIn, TResult, TContext>(this Task<TIn> task, TContext context, Action<TIn, CompletionContext<TIn, TResult, TContext>> completionAction, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<TResult>();
             task.OnSuccess(context, tcs, completionAction, cancellationToken);

@@ -4,7 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public static partial class TaskExtensions
+    public partial class TaskExtensions
     {
         private static partial class Continuations
         {
@@ -70,22 +70,22 @@
 
         public static Task<T> Tap<T>(this Task<T> task, Action<T> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<T>.TapAction, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<T>.TapAction, cancellationToken);
         }
 
         public static Task<T> Tap<T>(this Task<T> task, Func<T, Task> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<T>.TapTask, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<T>.TapTask, cancellationToken);
         }
 
         public static Task<T> Tap<T, TDummy>(this Task<T> task, Func<T, TDummy> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<T>.Dummy<TDummy>.TapAction, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<T>.Dummy<TDummy>.TapAction, cancellationToken);
         }
 
         public static Task<T> Tap<T, TDummy>(this Task<T> task, Func<T, Task<TDummy>> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<T>.Dummy<TDummy>.TapTask, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<T>.Dummy<TDummy>.TapTask, cancellationToken);
         }
     }
 }

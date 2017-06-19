@@ -120,60 +120,45 @@
                 }
             }
         }
-        
+
         public static Task Then(this Task task, Action action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.ThenVoidSync, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.ThenVoidSync, cancellationToken);
         }
 
         public static Task Then(this Task task, Func<Task> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action,Continuations.ThenVoidTask, cancellationToken);
+            return task.OnSuccessOuter(action,Continuations.ThenVoidTask, cancellationToken);
         }
 
         public static Task<TResult> Then<TResult>(this Task task, Func<TResult> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<TResult>.ThenResultSync, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<TResult>.ThenResultSync, cancellationToken);
         }
 
         public static Task<TResult> Then<TResult>(this Task task, Func<Task<TResult>> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.Result<TResult>.ThenResultTask, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<TResult>.ThenResultTask, cancellationToken);
         }
 
         public static Task Then<TIn>(this Task<TIn> task, Action<TIn> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.In<TIn>.ThenVoidSync, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.In<TIn>.ThenVoidSync, cancellationToken);
         }
 
         public static Task Then<TIn>(this Task<TIn> task, Func<TIn, Task> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations.In<TIn>.ThenVoidTask, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.In<TIn>.ThenVoidTask, cancellationToken);
         }
 
         public static Task<TResult> Then<TIn, TResult>(this Task<TIn> task, Func<TIn, TResult> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess<TIn, TResult, Func<TIn, TResult>>(action, Continuations.Result<TResult>.In<TIn>.ThenResultSync, cancellationToken);
+            return task.OnSuccessOuter(action, Continuations.Result<TResult>.In<TIn>.ThenResultSync, cancellationToken);
         }
 
         public static Task<TResult> Then<TIn, TResult>(this Task<TIn> task, Func<TIn, Task<TResult>> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess<TIn, TResult, Func<TIn,Task<TResult>>>(action, Continuations.Result<TResult>.In<TIn>.ThenResultTask, cancellationToken);
-        }
-
-        public static Task Then(this Task task, Action action)
-        {
-            return task.Then(action, CancellationToken.None);
-        }
-
-        public static Task Then(this Task task, Func<Task> action)
-        {
-            return task.Then(action, CancellationToken.None);
-        }
-
-        public static Task<TOut> Then<TOut>(this Task task, Func<TOut> action)
-        {
-            return task.Then(action, CancellationToken.None);
+            return task.OnSuccessOuter(action, Continuations.Result<TResult>.In<TIn>.ThenResultTask, cancellationToken);
         }
     }
 }
