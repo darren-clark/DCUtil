@@ -13,20 +13,22 @@
 
         private struct CompletionContext<TResult, TContext>
         {
+            public TContext context;
             public TaskCompletionSource<TResult> tcs;
+            public CancellationToken cancellationToken;
             public Action<TContext, TaskCompletionSource<TResult>> successAction;
             public Action<Exception, TContext, TaskCompletionSource<TResult>> faultedAction;
             public Action<TContext, TaskCompletionSource<TResult>> cancelledAction;
-            public TContext context;
         }
 
         private struct CompletionContext<TIn, TResult, TContext>
         {
+            public TContext context;
             public TaskCompletionSource<TResult> tcs;
+            public CancellationToken cancellationToken;
             public Action<TIn, TContext, TaskCompletionSource<TResult>> successAction;
             public Action<Exception, TContext, TaskCompletionSource<TResult>> faultedAction;
             public Action<TContext, TaskCompletionSource<TResult>> cancelledAction;
-            public TContext context;
         }
 
         private static void OnCompletionContination<TResult,TContext>(Task t, object boxedCtx)
@@ -61,7 +63,7 @@
                 switch (t.Status)
                 {
                     case TaskStatus.RanToCompletion:
-                        ctx.successAction(t.Result, ctx.context,  ctx.tcs);
+                        ctx.successAction(t.Result, ctx.context, ctx.tcs);
                         break;
                     case TaskStatus.Faulted:
                         ctx.faultedAction(t.Exception, ctx.context, ctx.tcs);
@@ -79,12 +81,12 @@
 
         private static void OnCompletion<TResult, TContext>(this Task task, TContext context,  TaskCompletionSource<TResult> tcs, Action<TContext, TaskCompletionSource<TResult>> successAction, Action<Exception, TContext, TaskCompletionSource<TResult>> faultedAction, Action<TContext, TaskCompletionSource<TResult>> cancelledAction, CancellationToken cancellationToken)
         {
-            task.ContinueWith(OnCompletionContination<TResult, TContext>, new CompletionContext<TResult, TContext> { tcs = tcs, context = context, successAction = successAction, faultedAction = faultedAction, cancelledAction = cancelledAction }, cancellationToken);
+            task.ContinueWith(OnCompletionContination<TResult, TContext>, new CompletionContext<TResult, TContext> { context = context, tcs = tcs, cancellationToken = cancellationToken, successAction = successAction, faultedAction = faultedAction, cancelledAction = cancelledAction } );
         }
 
         private static void OnCompletion<TIn, TResult, TContext>(this Task<TIn> task, TContext context, TaskCompletionSource<TResult> tcs, Action<TIn, TContext, TaskCompletionSource<TResult>> successAction, Action<Exception, TContext, TaskCompletionSource<TResult>> faultedAction, Action<TContext, TaskCompletionSource<TResult>> cancelledAction, CancellationToken cancellationToken)
         {
-            task.ContinueWith(OnCompletionContination<TIn,TResult, TContext>, new CompletionContext<TIn,TResult, TContext> { tcs = tcs, context = context, successAction = successAction, faultedAction = faultedAction, cancelledAction = cancelledAction }, cancellationToken);
+            task.ContinueWith(OnCompletionContination<TIn,TResult, TContext>, new CompletionContext<TIn,TResult, TContext> { context = context, tcs = tcs, cancellationToken = cancellationToken,  successAction = successAction, faultedAction = faultedAction, cancelledAction = cancelledAction });
         }
 
         private static void OnSuccess<TResult, TContext>(this Task task, TContext context, TaskCompletionSource<TResult> tcs, Action<TContext, TaskCompletionSource<TResult>> successAction, CancellationToken cancellationToken)

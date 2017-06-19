@@ -6,50 +6,53 @@
     
     public partial class TaskExtensions
     {
-        private static partial class Continuations<T>
+        private static partial class Continuations
         {
-            public static Action<T, Action<T>, TaskCompletionSource<T>> TapAction = (r, action, tcs) =>
+            public static partial class Result<TResult>
             {
-                action(r);
-                tcs.SetResult(r);
-            };
+                public static Action<TResult, Action<TResult>, TaskCompletionSource<TResult>> TapAction = (r, action, tcs) =>
+                {
+                    action(r);
+                    tcs.SetResult(r);
+                };
 
-            public static Action<T, Func<T, Task>, TaskCompletionSource<T>> TapTask = (r, action, tcs) => 
-                action(r).OnSuccess(r, TapComplete, CancellationToken.None);
-
-            public static Action<T, TaskCompletionSource<T>> TapComplete = (r, tcs) => tcs.SetResult(r);
-
-            public static class DummyReturn<TDummy>
-            {
-                public static Action<T, Func<T, TDummy>, TaskCompletionSource<T>> TapAction = (r, action, tcs) =>
-                 {
-                     action(r);
-                     tcs.SetResult(r);
-                 };
-
-                public static Action<T, Func<T, Task<TDummy>>, TaskCompletionSource<T>> TapTask = (r, action, tcs) =>
+                public static Action<TResult, Func<TResult, Task>, TaskCompletionSource<TResult>> TapTask = (r, action, tcs) =>
                     action(r).OnSuccess(r, TapComplete, CancellationToken.None);
+
+                public static Action<TResult, TaskCompletionSource<TResult>> TapComplete = (r, tcs) => tcs.SetResult(r);
+
+                public static partial class Dummy<TDummy>
+                {
+                    public static Action<TResult, Func<TResult, TDummy>, TaskCompletionSource<TResult>> TapAction = (r, action, tcs) =>
+                    {
+                        action(r);
+                        tcs.SetResult(r);
+                    };
+
+                    public static Action<TResult, Func<TResult, Task<TDummy>>, TaskCompletionSource<TResult>> TapTask = (r, action, tcs) =>
+                        action(r).OnSuccess(r, TapComplete, CancellationToken.None);
+                }
             }
         }
 
         public static Task<T> Tap<T>(this Task<T> task, Action<T> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations<T>.TapAction, cancellationToken);
+            return task.OnSuccess(action, Continuations.Result<T>.TapAction, cancellationToken);
         }
 
         public static Task<T> Tap<T>(this Task<T> task, Func<T, Task> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations<T>.TapTask, cancellationToken);
+            return task.OnSuccess(action, Continuations.Result<T>.TapTask, cancellationToken);
         }
 
         public static Task<T> Tap<T, TDummy>(this Task<T> task, Func<T,TDummy> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations<T>.DummyReturn<TDummy>.TapAction, cancellationToken);
+            return task.OnSuccess(action, Continuations.Result<T>.Dummy<TDummy>.TapAction, cancellationToken);
         }
 
         public static Task<T> Tap<T, TDummy>(this Task<T> task, Func<T, Task<TDummy>> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess(action, Continuations<T>.DummyReturn<TDummy>.TapTask, cancellationToken);
+            return task.OnSuccess(action, Continuations.Result<T>.Dummy<TDummy>.TapTask, cancellationToken);
         }
     }
 }
