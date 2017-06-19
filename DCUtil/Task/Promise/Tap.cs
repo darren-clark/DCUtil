@@ -19,7 +19,7 @@
                 public static Action<TResult, Func<TResult, Task>, TaskCompletionSource<TResult>> TapTask = (r, action, tcs) =>
                     action(r).OnSuccess(r, TapComplete, CancellationToken.None);
 
-                public static Action<TResult, TaskCompletionSource<TResult>> TapComplete = (r, tcs) => tcs.SetResult(r);
+                public static Action<CompletionContext<TResult,TResult>> TapComplete = (ctx) => ctx.tcs.SetResult(ctx.context);
 
                 public static partial class Dummy<TDummy>
                 {
