@@ -38,14 +38,30 @@
 
             public static partial class In<TIn>
             {
-                public static Action<TIn, Action<TIn>, TaskCompletionSource<VoidResult>> ThenVoidSync = (result, action, tcs) =>
-                {
-                    action(result);
-                    tcs.SetResult(voidResult);
-                };
+                public static Action<TIn, CompletionContext<TIn, VoidResult, Action<TIn>>> ThenVoidSync = (result, ctx) =>
+                    {
+                        if (ctx.cancellationToken.IsCancellationRequested)
+                        {
+                            ctx.cancelledAction(ctx);
+                        }
+                        else
+                        {
+                            ctx.context(result);
+                            ctx.tcs.SetResult(voidResult);
+                        }
+                    };
 
-                public static Action<TIn, Func<TIn, Task>, TaskCompletionSource<VoidResult>> ThenVoidTask = (result, action, tcs) =>
-                    action(result).OnSuccess(null, ThenVoidComplete, CancellationToken.None);
+                public static Action<TIn, CompletionContext<TIn, VoidResult, Func<TIn, Task>>> ThenVoidTask = (result, ctx) =>
+                    {
+                        if (ctx.cancellationToken.IsCancellationRequested)
+                        {
+                            ctx.cancelledAction(ctx);
+                        }
+                        else
+                        {
+                            ctx.context(result).OnSuccess(null, ctx.tcs, ThenVoidComplete, CancellationToken.None);
+                        }
+                    };
             }
 
             public static partial class Result<TResult>
@@ -74,19 +90,36 @@
                     }
                 };
 
-                public static Action<TResult, object, TaskCompletionSource<TResult>> ThenResultComplete = (result, dummy, tcs) => tcs.SetResult(result);
+                public static Action<TResult, CompletionContext<TResult,TResult, object>> ThenResultComplete = (result, ctx) => ctx.tcs.SetResult(result);
 
                 public static partial class In<TIn>
                 {
-                    public static Action<TIn, Func<TIn, TResult>, TaskCompletionSource<TResult>> ThenResultSync = (result, action, tcs) =>
-                         tcs.SetResult(action(result));
+                    public static Action<TIn, CompletionContext<TIn, TResult, Func<TIn, TResult>>> ThenResultSync = (result, ctx) =>
+                        {
+                            if (ctx.cancellationToken.IsCancellationRequested)
+                            {
+                                ctx.cancelledAction(ctx);
+                            }
+                            else
+                            {
+                                ctx.tcs.SetResult(ctx.context(result));
+                            }
+                        };
 
-                    public static Action<TIn, Func<TIn, Task<TResult>>, TaskCompletionSource<TResult>> ThenResultTask = (result, action, tcs) =>
-                        action(result).OnSuccess(null, ThenResultComplete, CancellationToken.None);
+                    public static Action<TIn, CompletionContext<TIn, TResult, Func<TIn, Task<TResult>>>> ThenResultTask = (result, ctx) =>
+                        {
+                            if (ctx.cancellationToken.IsCancellationRequested)
+                            {
+                                ctx.cancelledAction(ctx);
+                            }
+                            else
+                            {
+                                ctx.context(result).OnSuccess(null, ctx.tcs, ThenResultComplete, CancellationToken.None);
+                            }
+                        };
                 }
             }
         }
-
         
         public static Task Then(this Task task, Action action, CancellationToken cancellationToken)
         {
@@ -100,7 +133,7 @@
 
         public static Task<TResult> Then<TResult>(this Task task, Func<TResult> action, CancellationToken cancellationToken)
         {
-            return task.OnSuccess<TResult, Func<TResult>>(action, Continuations.Result<TResult>.ThenResultSync, cancellationToken);
+            return task.OnSuccess(action, Continuations.Result<TResult>.ThenResultSync, cancellationToken);
         }
 
         public static Task<TResult> Then<TResult>(this Task task, Func<Task<TResult>> action, CancellationToken cancellationToken)
