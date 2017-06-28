@@ -72,11 +72,11 @@
     <Compile Include="Collection\Collection.cs" />
     <Compile Include="Expression\ExpressionEqualityComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task\Promise\PromiseTests.cs" />
     <Compile Include="Task\Task.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Function\" />
-    <Folder Include="Task\Promise\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DCUtil\DCUtil.csproj">

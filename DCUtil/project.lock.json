@@ -3641,14 +3641,14 @@
     ".NETStandard,Version=v1.3": []
   },
   "packageFolders": {
-    "C:\\Users\\Darren\\.nuget\\packages\\": {}
+    "C:\\Users\\DarrenClark\\.nuget\\packages\\": {}
   },
   "project": {
     "restore": {
-      "projectUniqueName": "D:\\Users\\Darren\\Documents\\Visual Studio 2015\\Projects\\DCUtil\\DCUtil\\DCUtil.csproj",
+      "projectUniqueName": "C:\\Users\\DarrenClark\\Source\\Repos\\DCUtil\\DCUtil\\DCUtil.csproj",
       "projectName": "DCUtil",
-      "projectPath": "D:\\Users\\Darren\\Documents\\Visual Studio 2015\\Projects\\DCUtil\\DCUtil\\DCUtil.csproj",
-      "projectJsonPath": "D:\\Users\\Darren\\Documents\\Visual Studio 2015\\Projects\\DCUtil\\DCUtil\\project.json",
+      "projectPath": "C:\\Users\\DarrenClark\\Source\\Repos\\DCUtil\\DCUtil\\DCUtil.csproj",
+      "projectJsonPath": "C:\\Users\\DarrenClark\\Source\\Repos\\DCUtil\\DCUtil\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {
